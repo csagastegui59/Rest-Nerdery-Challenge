@@ -9,7 +9,7 @@ import startPassportModerator from './middleware/moderator.middleware'
 dotenv.config()
 
 const app = express()
-const PORT = process.env.API_PORT || 3000
+const PORT = process.env.PORT || 3000
 const ENVIROMENT = process.env.NODE_ENV || 'development'
 
 app.use(express.json())
