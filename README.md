@@ -20,7 +20,9 @@
 2. Start the server using npm:
    > \$ npm run dev
 3. Use postman or insomnia to test routes.
-## API Documentation following this link: https://app.swaggerhub.com/apis/csagastegui59/MicroblogAPI/1.0.0?loggedInWithGitHub=true
+## API Documentation
+
+following this link: https://app.swaggerhub.com/apis/csagastegui59/MicroblogAPI/1.0.0?loggedInWithGitHub=true
 
 ## Authors
 * Efrain Holguin - https://github.com/userlifex
