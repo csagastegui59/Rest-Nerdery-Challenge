@@ -10,11 +10,11 @@ generator client {
 }
 model Post {
   id          String   @id @default(uuid())
-  tile        String
+  title       String
   content     String
-  numLikes    Int      @map("num_likes")
-  numDislikes Int      @map("num_dislikes")
-  draft       Boolean
+  numLikes    Int      @map("num_likes") @default(0)
+  numDislikes Int      @map("num_dislikes") @default(0)
+  draft       Boolean  @default(false)
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
   accountId   String   @map("account_id")
@@ -30,13 +30,13 @@ model Account {
   email         String   @unique
   username      String?  @unique
   password      String
-  name          String
-  isPublicEmail Boolean  @map("is_public_email")
-  isPublicName  Boolean  @map("is_public_name")
-  isModerator   Boolean? @map("is_moderator")
-  tokenEmail    String   @map("token_email")
+  name          String?
+  isPublicEmail Boolean  @map("is_public_email") @default(true)
+  isPublicName  Boolean  @map("is_public_name")  @default(true)
+  isModerator   Boolean @map("is_moderator") @default(false)
+  tokenEmail    String?   @map("token_email")
   tokenPassword String?  @map("token_password")
-  verifiedAt    DateTime @map("verified_at")
+  verifiedAt    DateTime? @map("verified_at")
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
   posts    Post[]
@@ -49,9 +49,9 @@ model Account {
 }
 model Token {
   id           String    @id @default(uuid())
-  status       Boolean   @map("status")
-  accessToken  String    @map("access_token")
-  refreshToken String    @map("refresh_token")
+  status       Boolean?   @map("status")
+  accessToken  String?    @map("access_token")
+  refreshToken String?    @map("refresh_token")
   ttl          DateTime?
   dueAt        DateTime? @map("due_at")
   createdAt    DateTime  @default(now()) @map("created_at")
@@ -63,9 +63,9 @@ model Token {
 model Comment {
   id          String   @id @default(uuid())
   content     String
-  numLikes    Int      @map("num_likes")
-  numDislikes Int      @map("num_dislikes")
-  draft       Boolean
+  numLikes    Int      @map("num_likes") @default(0)
+  numDislikes Int      @map("num_dislikes") @default(0)
+  draft       Boolean  @default(false)
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
   accountId   String   @map("account_id")
@@ -87,6 +87,9 @@ model Like {
   account   Account  @relation(fields: [accountId], references: [id])
   comment   Comment? @relation(fields: [commentId], references: [id])
   post      Post?    @relation(fields: [postId], references: [id])
+
+  @@unique([accountId, commentId], name: "commentLike")
+  @@unique([accountId,  postId], name: "postLike")
   @@map("likes")
 }
 model Dislike {
@@ -99,6 +102,8 @@ model Dislike {
   account   Account  @relation(fields: [accountId], references: [id])
   comment   Comment? @relation(fields: [commentId], references: [id])
   post      Post?    @relation(fields: [postId], references: [id])
+  @@unique([accountId, commentId], name: "commentDislike")
+  @@unique([accountId,  postId], name: "postDislike")
   @@map("dislikes")
 }
 model Report {
@@ -109,6 +114,8 @@ model Report {
   accountId   String   @map("account_id")
   commentId   String?  @map("comment_id")
   postId      String?  @map("post_id")
+  @@unique([accountId, commentId], name: "commentReport")
+  @@unique([accountId,  postId], name: "postReport")
   account     Account  @relation(fields: [accountId], references: [id])
   comment     Comment? @relation(fields: [commentId], references: [id])
   post        Post?    @relation(fields: [postId], references: [id])
