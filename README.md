@@ -22,7 +22,7 @@
 3. Use postman or insomnia to test routes.
 ## API Documentation
 
-following this link: https://app.swaggerhub.com/apis/csagastegui59/MicroblogAPI/1.0.0?loggedInWithGitHub=true
+Refer to API documentation following this link: https://app.swaggerhub.com/apis/csagastegui59/MicroblogAPI/1.0.0?loggedInWithGitHub=true
 
 ## Authors
 * Efrain Holguin - https://github.com/userlifex
