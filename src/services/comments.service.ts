@@ -17,6 +17,13 @@ export default class CommentsService {
     return prisma.comment.findMany({ where: { postId, draft: false } })
   }
 
+  static async findByOwner(
+    accountId: string,
+    postId: string,
+  ): Promise<Comment> {
+    return prisma.comment.findFirst({ where: { accountId, postId } })
+  }
+
   static async update(id: string, input: UpdateCommentDto): Promise<Comment> {
     try {
       return prisma.comment.update({

@@ -1,4 +1,5 @@
 import express, { Router } from 'express'
+import asyncHandler from 'express-async-handler'
 import passport from 'passport'
 import {
   create,
@@ -10,12 +11,17 @@ import {
 const commentsRouter = express.Router()
 
 function commentsRoutes(): Router {
-  commentsRouter.use(passport.authenticate('jwt', { session: false }))
-  commentsRouter.route('/:postId/comments').post(create).get(find)
+  commentsRouter
+    .route('/:postId/comments')
+    .post(
+      passport.authenticate('jwt', { session: false }),
+      asyncHandler(create),
+    )
+    .get(asyncHandler(find))
   commentsRouter
     .route('/:postId/comments/:commentId')
-    .put(update)
-    .delete(deleteOne)
+    .put(asyncHandler(update))
+    .delete(asyncHandler(deleteOne))
 
   return commentsRouter
 }

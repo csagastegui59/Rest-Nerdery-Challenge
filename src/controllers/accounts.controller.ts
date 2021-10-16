@@ -4,6 +4,7 @@ import AccountsService from '../services/accounts.service'
 import AccountsPublicDto from '../dtos/accounts/res/accounts-public.dto'
 import UpdateAccountDto from '../dtos/accounts/req/update-account.dto'
 import UserDto from '../dtos/accounts/req/user.dto'
+import MyAccountDto from '../dtos/accounts/res/my-account.dto'
 
 const find = async (req: Request, res: Response) => {
   const accounts = await AccountsService.find()
@@ -18,8 +19,9 @@ const findMyAccount = async (req: Request, res: Response) => {
   await dto.isValid()
 
   const account = await AccountsService.findOne(dto.id)
+  const myaccount = plainToClass(MyAccountDto, account)
   res.status(200).send({
-    data: account,
+    data: myaccount,
   })
 }
 

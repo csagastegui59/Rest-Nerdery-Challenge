@@ -1,15 +1,17 @@
 import { plainToClass } from 'class-transformer'
 import { Request, Response } from 'express'
+import UserDto from '../dtos/accounts/req/user.dto'
 import CreateCommentDto from '../dtos/comments/req/create-comment.dto'
 import UpdateCommentDto from '../dtos/comments/req/update-comment.dto'
 import CommentsService from '../services/comments.service'
-import PostsService from '../services/posts.service'
 
 const create = async (req: Request, res: Response) => {
+  const userdto = plainToClass(UserDto, req.user)
+  await userdto.isValid()
   const { postId } = req.params
-  await PostsService.exists(postId)
   const createPostDto = plainToClass(CreateCommentDto, {
     postId,
+    accountId: userdto.id,
     ...req.body,
   })
 
@@ -22,7 +24,6 @@ const create = async (req: Request, res: Response) => {
 
 const find = async (req: Request, res: Response) => {
   const { postId } = req.params
-  await PostsService.exists(postId)
   const comments = await CommentsService.findByPostId(postId)
   res.send({
     data: comments,

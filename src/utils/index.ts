@@ -10,10 +10,9 @@ function generateJWTToken(sub: string): string {
   return jwt.sign(
     {
       sub,
-      iat: new Date().getTime(),
-      exp: new Date().setDate(new Date().getDate() + 1),
     },
     process.env.SECRET_JWT_KEY as string,
+    { expiresIn: '60m' },
   )
 }
 

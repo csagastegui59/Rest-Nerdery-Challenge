@@ -17,8 +17,8 @@ function router(app: Router): Router {
   app.use('/posts', postsRootRoutes())
   app.use('/accounts', postsRoutes())
   app.use('/posts', commentsRoutes())
-  app.use('/', reportsRoutes())
   app.use('/forgot-password', forgotRoutes())
+  app.use('/', reportsRoutes())
   app.use('/', likesRoutes())
 
   return expressRouter

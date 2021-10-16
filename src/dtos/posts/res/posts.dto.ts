@@ -38,6 +38,9 @@ export default class PostDto extends BaseDto {
   readonly numDislikes: number
 
   @Expose()
+  readonly accountId: string
+
+  @Expose()
   @Transform(({ value }) => value?.toISOString())
   readonly createdAt: Date
 

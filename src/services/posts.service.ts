@@ -6,7 +6,7 @@ import prisma from './prisma.service'
 
 export default class PostsService {
   static async find(): Promise<Post[]> {
-    return prisma.post.findMany({})
+    return prisma.post.findMany({ where: { draft: false } })
   }
 
   static async findOne(id: string): Promise<Post> {
@@ -26,12 +26,16 @@ export default class PostsService {
     })
   }
 
+  static async findByOwner(accountId: string, postId: string): Promise<Post> {
+    return prisma.post.findFirst({ where: { accountId, id: postId } })
+  }
+
   static async findAllPosts(): Promise<Post[]> {
     return prisma.post.findMany({ where: { draft: false } })
   }
 
-  static async findMyPosts(id: string): Promise<Post[]> {
-    return prisma.post.findMany({ where: { id } })
+  static async findMyPosts(accountId: string): Promise<Post[]> {
+    return prisma.post.findMany({ where: { accountId } })
   }
 
   static async update(id: string, input: EditPostDto): Promise<Post> {
@@ -43,13 +47,7 @@ export default class PostsService {
         },
       })
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === 'P2002') {
-          throw new createError.UnprocessableEntity('email already taken')
-        }
-      }
-
-      throw error
+      throw new createError.UnprocessableEntity('email already taken')
     }
   }
 

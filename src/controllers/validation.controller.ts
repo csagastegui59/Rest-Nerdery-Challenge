@@ -8,8 +8,8 @@ const validate = async (req: Request, res: Response) => {
   const { email } = req.body
   const dto = plainToClass(ValidateEmailDto, { email, tokenEmail })
   await dto.isValid()
-  const account = await ValidationsService.validateEmail(dto)
-  res.send({ data: account, message: 'email validate' })
+  await ValidationsService.validateEmail(dto)
+  res.send({ message: 'email validated' })
 }
 
 export default validate

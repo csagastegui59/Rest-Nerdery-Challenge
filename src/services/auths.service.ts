@@ -26,8 +26,8 @@ export default class AuthsService {
       throw new createError.UnprocessableEntity('invalid credentials')
     }
 
-    return {
-      token: generateJWTToken(account.id),
-    }
+    const token = generateJWTToken(account.id)
+
+    return { token }
   }
 }

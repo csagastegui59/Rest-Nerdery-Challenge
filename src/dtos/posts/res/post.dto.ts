@@ -12,41 +12,19 @@ import BaseDto from '../../base.dto'
 @Exclude()
 export default class PostDto extends BaseDto {
   @Expose()
-  @IsString()
-  @IsNotEmpty()
   readonly id: string
 
   @Expose()
-  @IsString()
-  @IsNotEmpty()
   readonly title: string
 
   @Expose()
-  @IsString()
-  @IsNotEmpty()
   readonly content: string
 
   @Expose()
-  @IsNumber()
-  @IsOptional()
-  @IsPositive()
   readonly numLikes: number
 
   @Expose()
-  @IsNumber()
-  @IsOptional()
-  @IsPositive()
   readonly numDislikes: number
-
-  @Expose()
-  @IsBoolean()
-  @IsOptional()
-  readonly draft: boolean
-
-  @Expose()
-  @IsBoolean()
-  @IsOptional()
-  readonly isVisibleId: Record<string, boolean>
 
   @Expose()
   @Transform(({ value }) => value?.toISOString())

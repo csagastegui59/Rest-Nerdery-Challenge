@@ -2,10 +2,7 @@ import { Expose, Exclude, Transform } from 'class-transformer'
 import BaseDto from '../../base.dto'
 
 @Exclude()
-export default class AccountsPublicDto extends BaseDto {
-  @Expose()
-  readonly id: string
-
+export default class MyAccountDto extends BaseDto {
   @Expose()
   readonly email: string
 
@@ -14,6 +11,16 @@ export default class AccountsPublicDto extends BaseDto {
 
   @Expose()
   readonly name: string
+
+  @Expose()
+  readonly isPublicName: boolean
+
+  @Expose()
+  readonly isPublicEmail: boolean
+
+  @Expose()
+  @Transform(({ value }) => value?.toISOString())
+  readonly verifiedAt: Date
 
   @Expose()
   @Transform(({ value }) => value?.toISOString())
