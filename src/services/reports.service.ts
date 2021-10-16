@@ -2,7 +2,7 @@ import { Post, Comment, Report } from '@prisma/client'
 import createError from 'http-errors'
 import CommentReportDto from '../dtos/reports/req/comment-report.dto'
 import PostReportDto from '../dtos/reports/req/post-report.dto'
-import prisma from './prisma.service'
+import prisma from '../utils/prisma'
 
 export default class ReportsService {
   private static async validatePost(id: string): Promise<Post> {

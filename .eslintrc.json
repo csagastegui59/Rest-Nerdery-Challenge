@@ -6,7 +6,7 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [".ts"]
       }
     }
   },
@@ -31,10 +31,7 @@
       "error",
       "ignorePackages",
       {
-        "js": "never",
-        "jsx": "never",
-        "ts": "never",
-        "tsx": "never"
+        "ts": "never"
       }
     ],
     "import/named": "error",

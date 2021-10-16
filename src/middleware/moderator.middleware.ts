@@ -1,7 +1,7 @@
 import createHttpError from 'http-errors'
 import { PassportStatic } from 'passport'
 import { ExtractJwt, Strategy } from 'passport-jwt'
-import prisma from '../services/prisma.service'
+import prisma from '../utils/prisma'
 
 export default function startPassportModerator(passport: PassportStatic) {
   passport.use(

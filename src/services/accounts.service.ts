@@ -4,8 +4,8 @@ import createError from 'http-errors'
 import { getToken } from '../utils'
 import CreateAccountDto from '../dtos/accounts/req/create-account.dto'
 import UpdateAccountDto from '../dtos/accounts/req/update-account.dto'
-import sendEmail from './send-email.service'
-import prisma from './prisma.service'
+import prisma from '../utils/prisma'
+import sendEmail from '../utils/send-email'
 
 export default class AccountsService {
   static async find(): Promise<Account[]> {
@@ -21,11 +21,11 @@ export default class AccountsService {
   }
 
   static async update(id: string, input: UpdateAccountDto): Promise<Account> {
+    if (!id) {
+      throw new createError.UnprocessableEntity('bad request')
+    }
     try {
-      if (!id) {
-        throw new createError.UnprocessableEntity('bad request')
-      }
-      return prisma.account.update({
+      return await prisma.account.update({
         data: input,
         where: {
           id,

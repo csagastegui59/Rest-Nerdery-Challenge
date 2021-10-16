@@ -2,7 +2,7 @@ import { Prisma, Post } from '@prisma/client'
 import createError from 'http-errors'
 import CreatePostDto from '../dtos/posts/req/create-post.dto'
 import EditPostDto from '../dtos/posts/req/edit-post.dto'
-import prisma from './prisma.service'
+import prisma from '../utils/prisma'
 
 export default class PostsService {
   static async find(): Promise<Post[]> {

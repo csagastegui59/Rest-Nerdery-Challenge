@@ -2,7 +2,8 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  collectCoverageFrom: ['src/**/*.ts'],
+  collectCoverageFrom: ['src/services/*.ts'],
+  verbose: true,
   coverageThreshold: {
     global: {
       branches: 0,
