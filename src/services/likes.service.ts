@@ -2,7 +2,7 @@ import { Dislike, Like, Post, Comment } from '@prisma/client'
 import createError from 'http-errors'
 import CommentLikeDto from '../dtos/likes/req/comment-like.dto'
 import PostLikeDto from '../dtos/likes/req/post-like.dto'
-import prisma from './prisma.service'
+import prisma from '../utils/prisma'
 
 export default class LikesService {
   private static async validatePost(id: string): Promise<Post> {

@@ -1,7 +1,7 @@
 import { Account } from '@prisma/client'
 import createError from 'http-errors'
 import ValidateEmailDto from '../dtos/validate/req/validate-email.dto'
-import prisma from './prisma.service'
+import prisma from '../utils/prisma'
 
 export default class ValidationsService {
   static async validateEmail(input: ValidateEmailDto): Promise<Account> {

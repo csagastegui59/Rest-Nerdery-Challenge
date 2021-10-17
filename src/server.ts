@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express'
 import dotenv from 'dotenv' /* load environment variables */
-import httpErros, { HttpError } from 'http-errors'
+import httpErrors, { HttpError } from 'http-errors'
 import passport from 'passport'
 import router from './router'
 import startPassport from './middleware/login-auth.middleware'
@@ -22,7 +22,7 @@ app.use(passport.initialize())
 app.use('/', router(app))
 
 app.use('/*', () => {
-  throw new httpErros.NotFound('not found')
+  throw new httpErrors.NotFound('not found')
 })
 
 function errorHandler(

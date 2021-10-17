@@ -1,5 +1,4 @@
 import { Expose, Exclude, Transform } from 'class-transformer'
-import { IsBoolean } from 'class-validator'
 import BaseDto from '../../base.dto'
 
 @Exclude()

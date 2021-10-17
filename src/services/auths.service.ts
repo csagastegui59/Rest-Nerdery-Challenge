@@ -3,7 +3,7 @@ import createError from 'http-errors'
 import LoginDto from '../dtos/auths/req/login.dto'
 import TokenDto from '../dtos/auths/res/token.dto'
 import { generateJWTToken } from '../utils'
-import prisma from './prisma.service'
+import prisma from '../utils/prisma'
 
 export default class AuthsService {
   static async login(input: LoginDto): Promise<TokenDto> {

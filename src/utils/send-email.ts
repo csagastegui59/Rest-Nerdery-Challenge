@@ -1,12 +1,6 @@
 import nodemailer, { SentMessageInfo } from 'nodemailer'
-import dotenv from 'dotenv'
 
-dotenv.config()
 const transporter = nodemailer.createTransport({
-  // host: 'localhost',
-  // port: 3000,
-  // secure: false,
-  // requireTLS: true,
   service: 'gmail',
   auth: {
     user: process.env.EMAIL,

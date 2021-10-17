@@ -18,7 +18,7 @@ model Post {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
   accountId   String   @map("account_id")
-  account     Account  @relation(fields: [accountId], references: [id])
+  account     Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
   comments Comment[]
   reports  Report[]
   likes    Like[]
@@ -57,7 +57,7 @@ model Token {
   createdAt    DateTime  @default(now()) @map("created_at")
   updatedAt    DateTime  @updatedAt @map("updated_at")
   accountId    String    @map("account_id")
-  account      Account   @relation(fields: [accountId], references: [id])
+  account      Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
   @@map("tokens")
 }
 model Comment {
@@ -70,8 +70,8 @@ model Comment {
   updatedAt   DateTime @updatedAt @map("updated_at")
   accountId   String   @map("account_id")
   postId      String   @map("post_id")
-  account     Account  @relation(fields: [accountId], references: [id])
-  post        Post     @relation(fields: [postId], references: [id])
+  account     Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   reports  Report[]
   likes    Like[]
   dislikes Dislike[]
@@ -84,9 +84,9 @@ model Like {
   accountId String   @map("account_id")
   commentId String?  @map("comment_id")
   postId    String?  @map("post_id")
-  account   Account  @relation(fields: [accountId], references: [id])
-  comment   Comment? @relation(fields: [commentId], references: [id])
-  post      Post?    @relation(fields: [postId], references: [id])
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@unique([accountId, commentId], name: "commentLike")
   @@unique([accountId,  postId], name: "postLike")
@@ -99,9 +99,9 @@ model Dislike {
   accountId String   @map("account_id")
   commentId String?  @map("comment_id")
   postId    String?  @map("post_id")
-  account   Account  @relation(fields: [accountId], references: [id])
-  comment   Comment? @relation(fields: [commentId], references: [id])
-  post      Post?    @relation(fields: [postId], references: [id])
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
   @@unique([accountId, commentId], name: "commentDislike")
   @@unique([accountId,  postId], name: "postDislike")
   @@map("dislikes")
@@ -116,8 +116,8 @@ model Report {
   postId      String?  @map("post_id")
   @@unique([accountId, commentId], name: "commentReport")
   @@unique([accountId,  postId], name: "postReport")
-  account     Account  @relation(fields: [accountId], references: [id])
-  comment     Comment? @relation(fields: [commentId], references: [id])
-  post        Post?    @relation(fields: [postId], references: [id])
+  account     Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  comment     Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  post        Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
   @@map("reports")
 }
