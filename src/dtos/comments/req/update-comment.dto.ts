@@ -16,16 +16,6 @@ export default class UpdateCommentDto extends BaseDto {
   @IsNotEmpty()
   readonly content: string
 
-  @Expose()
-  @IsNumber()
-  @IsOptional()
-  readonly numLikes: number
-
-  @Expose()
-  @IsNumber()
-  @IsOptional()
-  readonly numDislikes: number
-
   @Exclude()
   @IsBoolean()
   @IsOptional()

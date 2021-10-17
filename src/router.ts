@@ -7,6 +7,7 @@ import commentsRoutes from './routes/comments.router'
 import reportsRoutes from './routes/reports.router'
 import forgotRoutes from './routes/forgot.router'
 import likesRoutes from './routes/likes.router'
+import moderatorRoutes from './routes/moderator.router'
 
 const expressRouter = express.Router()
 
@@ -20,6 +21,7 @@ function router(app: Router): Router {
   app.use('/forgot-password', forgotRoutes())
   app.use('/', reportsRoutes())
   app.use('/', likesRoutes())
+  app.use('/accounts/moderator', moderatorRoutes())
 
   return expressRouter
 }

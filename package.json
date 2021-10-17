@@ -4,18 +4,25 @@
   "description": "This is a repo for Rest Nerdery Challenge of Ravn",
   "main": "server.ts",
   "scripts": {
-    "dev": "ts-node-dev src/server.ts",
-    "dev:watch": "nodemon src/server.ts",
-    "test": "jest",
-    "test:unit": "jest unit",
-    "test:int": "jest int",
-    "test:coverage": "jest --collect-coverage --runInBand"
+  "dev": "ts-node-dev src/server.ts",
+  "dev:watch": "nodemon src/server.ts",
+  "test": "jest",
+  "test:unit": "jest unit",
+  "test:int": "jest int",
+  "test:coverage": "jest --collect-coverage --runInBand"
+  "start": "node dist/server.js",
+  "build": "npx tsc",
+  "dev": "ts-node-dev src/server.ts",
+  "dev:watch": "nodemon src/server.ts",
+  "prisma:migrate": "npx prisma migrate deploy",
+  "start:build": "tsc",
+  "start:prod": "node dist/server.js"
+
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^3.2.0",
-    "@types/nodemailer": "^6.4.4",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
@@ -31,10 +38,12 @@
     "passport-jwt": "^4.0.0",
     "random-token": "0.0.8",
     "reflect-metadata": "^0.1.13",
-    "ts-token-generator": "^1.0.4"
+    "ts-token-generator": "^1.0.4",
+    "prisma": "^3.2.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
+    "@types/nodemailer": "^6.4.4",
     "@types/cors": "^2.8.12",
     "@types/date-fns": "^2.6.0",
     "@types/express": "^4.17.13",
@@ -55,7 +64,6 @@
     "jest": "^27.2.5",
     "nodemon": "^2.0.13",
     "prettier": "^2.4.1",
-    "prisma": "^3.2.0",
     "ts-jest": "^27.0.6",
     "ts-node": "^10.2.1",
     "ts-node-dev": "^1.1.8",

@@ -37,13 +37,7 @@ function postsRoutes(): Router {
 
   postsRouter.route('/:accountId/posts').get(asyncHandler(findByAccountId))
 
-  postsRouter
-    .route('/:accountId/posts/:postId')
-    .get(asyncHandler(findOne))
-    .delete(
-      passport.authenticate('mi-jwt', { session: false }),
-      asyncHandler(modDeleteOne),
-    )
+  postsRouter.route('/:accountId/posts/:postId').get(asyncHandler(findOne))
 
   return postsRouter
 }

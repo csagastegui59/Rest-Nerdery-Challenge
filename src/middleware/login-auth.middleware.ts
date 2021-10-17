@@ -22,6 +22,10 @@ export default function startPassport(passport: PassportStatic) {
           done(new createHttpError.Unauthorized('Incorrect credentials'), null)
         }
 
+        if (account?.isModerator) {
+          done(new createHttpError.Unauthorized('Incorrect credentials'), null)
+        }
+
         done(null, { id: account?.id })
       },
     ),

@@ -1,5 +1,6 @@
 import { Prisma, Comment } from '@prisma/client'
 import createError from 'http-errors'
+import CommentOwnerDto from '../dtos/comments/req/comment-owner.dto'
 import CreateCommentDto from '../dtos/comments/req/create-comment.dto'
 import UpdateCommentDto from '../dtos/comments/req/update-comment.dto'
 import prisma from '../utils/prisma'
@@ -24,33 +25,42 @@ export default class CommentsService {
     return prisma.comment.findFirst({ where: { accountId, postId } })
   }
 
-  static async update(id: string, input: UpdateCommentDto): Promise<Comment> {
-    try {
-      return prisma.comment.update({
-        data: input,
-        where: {
-          id,
-        },
-      })
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === 'P2002') {
-          throw new createError.UnprocessableEntity('invalid data')
-        }
-      }
+  static async update(
+    commentOwner: CommentOwnerDto,
+    input: UpdateCommentDto,
+  ): Promise<Comment> {
+    const count = await prisma.post.count({
+      where: { id: commentOwner.postId, accountId: commentOwner.accountId },
+    })
 
-      throw error
+    if (!count) {
+      throw new createError.UnprocessableEntity('invalid data')
     }
+
+    return prisma.comment.update({
+      data: input,
+      where: {
+        id: commentOwner.commentId,
+      },
+    })
   }
 
   static async create(input: CreateCommentDto): Promise<Comment> {
     return prisma.comment.create({ data: input })
   }
 
-  static async delete(id: string): Promise<Comment> {
+  static async delete(commentOwner: CommentOwnerDto): Promise<Comment> {
+    const count = await prisma.post.count({
+      where: { id: commentOwner.postId, accountId: commentOwner.accountId },
+    })
+
+    if (!count) {
+      throw new createError.UnprocessableEntity('invalid data')
+    }
+
     return prisma.comment.delete({
       where: {
-        id,
+        id: commentOwner.commentId,
       },
     })
   }

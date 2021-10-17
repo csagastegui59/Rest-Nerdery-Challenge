@@ -3,11 +3,12 @@ import { plainToClass } from 'class-transformer'
 import PostLikeDto from '../dtos/likes/req/post-like.dto'
 import LikesService from '../services/likes.service'
 import CommentLikeDto from '../dtos/likes/req/comment-like.dto'
+import UserDto from '../dtos/accounts/req/user.dto'
 
 const commentsLike = async (req: Request, res: Response) => {
-  const { accountId } = req.body
+  const userdto = plainToClass(UserDto, req.user)
   const { commentId } = req.params
-  const dto = plainToClass(CommentLikeDto, { accountId, commentId })
+  const dto = plainToClass(CommentLikeDto, { commentId, accountId: userdto.id })
   await dto.isValid()
   const like = await LikesService.likeComment(dto)
   res.send({
@@ -16,9 +17,9 @@ const commentsLike = async (req: Request, res: Response) => {
 }
 
 const commentsDislike = async (req: Request, res: Response) => {
-  const { accountId } = req.body
+  const userdto = plainToClass(UserDto, req.user)
   const { commentId } = req.params
-  const dto = plainToClass(CommentLikeDto, { accountId, commentId })
+  const dto = plainToClass(CommentLikeDto, { commentId, accountId: userdto.id })
   await dto.isValid()
   const like = await LikesService.dislikeComment(dto)
   res.send({
@@ -27,9 +28,9 @@ const commentsDislike = async (req: Request, res: Response) => {
 }
 
 const postsLike = async (req: Request, res: Response) => {
-  const { accountId } = req.body
+  const userdto = plainToClass(UserDto, req.user)
   const { postId } = req.params
-  const dto = plainToClass(PostLikeDto, { accountId, postId })
+  const dto = plainToClass(PostLikeDto, { postId, accountId: userdto.id })
   await dto.isValid()
   const like = await LikesService.likePost(dto)
   res.send({
@@ -38,9 +39,9 @@ const postsLike = async (req: Request, res: Response) => {
 }
 
 const postsDislike = async (req: Request, res: Response) => {
-  const { accountId } = req.body
+  const userdto = plainToClass(UserDto, req.user)
   const { postId } = req.params
-  const dto = plainToClass(PostLikeDto, { accountId, postId })
+  const dto = plainToClass(PostLikeDto, { postId, accountId: userdto.id })
   await dto.isValid()
   const dislike = await LikesService.dislikePost(dto)
   res.send({

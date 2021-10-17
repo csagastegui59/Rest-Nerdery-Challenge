@@ -18,7 +18,9 @@ function commentsRoutes(): Router {
       asyncHandler(create),
     )
     .get(asyncHandler(find))
+
   commentsRouter
+    .use(passport.authenticate('jwt', { session: false }))
     .route('/:postId/comments/:commentId')
     .put(asyncHandler(update))
     .delete(asyncHandler(deleteOne))
