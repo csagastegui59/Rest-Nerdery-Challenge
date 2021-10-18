@@ -18,7 +18,7 @@
 1. use prisma migrate to generate database:
    > \$ npm run migrate
 2. Start the server using npm:
-   > \$ npm run dev
+   > \$ npm run dev:watch
 3. Use postman or insomnia to test routes.
 ## API Documentation
 
@@ -26,4 +26,4 @@ Refer to API documentation following this link: https://app.swaggerhub.com/apis/
 
 ## Authors
 * Efrain Holguin - https://github.com/userlifex
-* Christian Sagastegui - Efrain Holguin - https://github.com/csagastegui59
+* Christian Sagastegui - https://github.com/csagastegui59
