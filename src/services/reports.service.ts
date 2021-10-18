@@ -5,7 +5,7 @@ import PostReportDto from '../dtos/reports/req/post-report.dto'
 import prisma from '../utils/prisma'
 
 export default class ReportsService {
-  private static async validatePost(id: string): Promise<Post> {
+  static async validatePost(id: string): Promise<Post> {
     const post = await prisma.post.findUnique({
       where: { id },
       rejectOnNotFound: false,
@@ -17,7 +17,7 @@ export default class ReportsService {
     return post
   }
 
-  private static async validateComment(id: string): Promise<Comment> {
+  static async validateComment(id: string): Promise<Comment> {
     const comment = await prisma.comment.findUnique({
       where: { id },
       rejectOnNotFound: false,
@@ -29,7 +29,7 @@ export default class ReportsService {
     return comment
   }
 
-  private static async validateAccount(id: string): Promise<void> {
+  static async validateAccount(id: string): Promise<void> {
     if (!(await prisma.account.count({ where: { id } }))) {
       throw new createError.NotFound('resource does not exist')
     }
