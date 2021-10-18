@@ -17,15 +17,6 @@ export default class PostsService {
     return prisma.post.findMany({ where: { accountId, draft: false } })
   }
 
-  static async findPost(id: string): Promise<Post> {
-    return prisma.post.findFirst({
-      where: {
-        id,
-        draft: false,
-      },
-    })
-  }
-
   static async findByOwner(accountId: string, postId: string): Promise<Post> {
     return prisma.post.findFirst({ where: { accountId, id: postId } })
   }
@@ -39,16 +30,12 @@ export default class PostsService {
   }
 
   static async update(id: string, input: EditPostDto): Promise<Post> {
-    try {
-      return prisma.post.update({
-        data: input,
-        where: {
-          id,
-        },
-      })
-    } catch (error) {
-      throw new createError.UnprocessableEntity('email already taken')
-    }
+    return prisma.post.update({
+      data: input,
+      where: {
+        id,
+      },
+    })
   }
 
   static async create(input: CreatePostDto): Promise<Post> {
@@ -61,14 +48,5 @@ export default class PostsService {
         id,
       },
     })
-  }
-
-  static async exists(id: string): Promise<boolean> {
-    const count = await prisma.post.count({ where: { id } })
-    if (!count) {
-      throw new createError.UnprocessableEntity('register does not exist')
-    }
-
-    return true
   }
 }

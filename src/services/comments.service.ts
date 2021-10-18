@@ -64,22 +64,4 @@ export default class CommentsService {
       },
     })
   }
-
-  static async exists(id: string): Promise<boolean> {
-    const count = await prisma.comment.count({ where: { id } })
-    if (!count) {
-      throw new createError.UnprocessableEntity('register does not exist')
-    }
-
-    return true
-  }
-
-  static async existsWithPost(id: string, postId: string): Promise<boolean> {
-    const count = await prisma.comment.count({ where: { id, postId } })
-    if (!count) {
-      throw new createError.UnprocessableEntity('register does not exist')
-    }
-
-    return true
-  }
 }

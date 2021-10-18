@@ -24,22 +24,13 @@ export default class AccountsService {
     if (!id) {
       throw new createError.UnprocessableEntity('bad request')
     }
-    try {
-      return await prisma.account.update({
-        data: input,
-        where: {
-          id,
-        },
-      })
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === 'P2002') {
-          throw new createError.UnprocessableEntity('email already taken')
-        }
-      }
 
-      throw error
-    }
+    return prisma.account.update({
+      data: input,
+      where: {
+        id,
+      },
+    })
   }
 
   static async create(input: CreateAccountDto): Promise<Account> {
@@ -61,32 +52,5 @@ export default class AccountsService {
     return prisma.account.create({
       data: { ...input, tokenEmail, password: cryptPass },
     })
-  }
-
-  static async delete(id: string): Promise<Account> {
-    if (!id) {
-      throw new createError.UnprocessableEntity('bad request')
-    }
-    const account = await prisma.account.delete({
-      where: {
-        id,
-      },
-    })
-    return account
-  }
-
-  static async exists(id: string): Promise<boolean> {
-    const count = await prisma.account.count({ where: { id } })
-
-    return !!count
-  }
-
-  static async existsEmail(email: string): Promise<boolean> {
-    const count = await prisma.account.count({ where: { email } })
-    if (count) {
-      throw new createError.UnprocessableEntity('email already exists')
-    }
-
-    return false
   }
 }

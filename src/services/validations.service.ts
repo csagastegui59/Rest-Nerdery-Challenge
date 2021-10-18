@@ -7,6 +7,7 @@ export default class ValidationsService {
   static async validateEmail(input: ValidateEmailDto): Promise<Account> {
     const account = await prisma.account.findUnique({
       where: { email: input.email },
+      rejectOnNotFound: false,
     })
 
     if (!account) {

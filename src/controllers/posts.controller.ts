@@ -36,19 +36,11 @@ const create = async (req: Request, res: Response) => {
 }
 
 const findByAccountId = async (req: Request, res: Response) => {
-  try {
-    const account = await AccountsService.exists(req.params.id)
-    if (!account) {
-      throw new createError.UnprocessableEntity('Invalid data')
-    }
-    const posts = await PostsService.findByAccountId(req.params.id)
-    const dto = plainToClass(PostDto, posts)
-    res.status(200).send({
-      data: dto,
-    })
-  } catch (error) {
-    res.status(400).send({ error })
-  }
+  const posts = await PostsService.findByAccountId(req.params.id)
+  const dto = plainToClass(PostDto, posts)
+  res.status(200).send({
+    data: dto,
+  })
 }
 
 const update = async (req: Request, res: Response) => {
@@ -90,19 +82,11 @@ const modDeleteOne = async (req: Request, res: Response) => {
   const { postId } = req.params
   const dto = plainToClass(DeletePostDto, req.params)
   // validacion para ver si el post te pertenece
-  try {
-    const validatedPost = await PostsService.exists(req.params.postId)
-    if (!validatedPost) {
-      throw new createError.UnprocessableEntity('Post does not exist')
-    }
-    await dto.isValid()
-    const post = await PostsService.delete(postId)
-    res.status(200).send({
-      data: post,
-    })
-  } catch (error) {
-    res.status(400).send({ error })
-  }
+  await dto.isValid()
+  const post = await PostsService.delete(postId)
+  res.status(200).send({
+    data: post,
+  })
 }
 
 export {

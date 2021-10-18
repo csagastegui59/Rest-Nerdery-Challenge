@@ -1,20 +1,23 @@
 import { Account, Prisma } from '@prisma/client'
 import { plainToClass } from 'class-transformer'
-import createHttpError from 'http-errors'
+import nodemailer from 'nodemailer'
 import AccountsService from '../accounts.service'
 import prisma from '../../utils/prisma'
+import sendEmail from '../../utils/send-email'
 import CreateAccountDto from '../../dtos/accounts/req/create-account.dto'
 import UpdateAccountDto from '../../dtos/accounts/req/update-account.dto'
 
-// jest.mock('http-errors', () => {
-//   return jest.fn()
-// })
+jest.mock('nodemailer', () => {
+  return jest.fn()
+})
+
+jest.mock('../../utils/send-email', () => {
+  return jest.fn()
+})
 
 let globalAccount: Account
 let globalAccount2: Account
-// beforeEach(() => {
-//   ;(createHttpError as jest.MockedFunction<typeof createHttpError>).mockClear()
-// })
+
 beforeAll(async () => {
   await prisma.$connect()
   await prisma.account.deleteMany()
@@ -29,7 +32,7 @@ beforeAll(async () => {
   globalAccount2 = await prisma.account.create({
     data: {
       email: 'mail2@mail.com',
-      name: 'Christian',
+      name: 'Efrain',
       password: 'password',
     },
   })
@@ -37,6 +40,10 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await prisma.$disconnect()
+})
+
+afterEach(() => {
+  jest.clearAllMocks()
 })
 
 describe('Accounts Service', () => {
@@ -61,9 +68,46 @@ describe('Accounts Service', () => {
     }).rejects.toThrow()
   })
 
-  // it('Should throw an error when email is already taken', async () => {
-  //   const dto = plainToClass(UpdateAccountDto, { email: 'mail2@mail.com' })
-  //   const account = globalAccount2
-  //   expect(account.email).rejects.toThrow()
-  // })
+  it('Should throw an error when email is already taken', async () => {
+    const dto = plainToClass(CreateAccountDto, {
+      email: 'mail2@mail.com',
+      name: 'jhon',
+      password: 'password',
+    })
+
+    expect(async () => {
+      await AccountsService.create(dto)
+    }).rejects.toThrow()
+  })
+
+  it('Should not update an account when email is already taken', async () => {
+    const dto = plainToClass(UpdateAccountDto, {
+      name: 'New Name',
+      email: 'mail2@mail.com',
+    })
+    expect(async () => {
+      await AccountsService.update(globalAccount.id, dto)
+    }).rejects.toThrow()
+  })
+
+  it('should return all accounts', async () => {
+    const account = await AccountsService.find()
+    expect(Array.isArray(account)).toBe(true)
+  })
+
+  it('should return an account by id', async () => {
+    const account = await AccountsService.findOne(globalAccount.id)
+    expect(account.id).toBe(globalAccount.id)
+  })
+
+  it('should return an account by email', async () => {
+    const account = await AccountsService.findByEmail(globalAccount.email)
+    expect(account.id).toBe(globalAccount.id)
+  })
+
+  it('should throw error when no exists id', async () => {
+    expect(async () => {
+      await AccountsService.findOne('1234567890')
+    }).rejects.toThrow()
+  })
 })
