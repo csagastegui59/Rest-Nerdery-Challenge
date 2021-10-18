@@ -16,6 +16,7 @@ import CommentOwnerDto from '../../dtos/comments/req/comment-owner.dto'
 import UpdateCommentDto from '../../dtos/comments/req/update-comment.dto'
 import CreateCommentDto from '../../dtos/comments/req/create-comment.dto'
 import LikesService from '../likes.service'
+import PostLikeDto from '../../dtos/likes/req/post-like.dto'
 
 jest.mock('nodemailer', () => {
   return jest.fn()
@@ -152,6 +153,19 @@ describe('comments service', () => {
   })
 
   it('should throw error if post is not valid', async () => {
+    expect(async () => {
+      await LikesService.likePost({
+        postId: '1234',
+      } as PostLikeDto)
+    }).rejects.toThrow()
+  })
 
+  it('should throw error if an account post is not valid', async () => {
+    expect(async () => {
+      await LikesService.likePost({
+        accountId: '1234',
+        postId: '1234',
+      } as PostLikeDto)
+    }).rejects.toThrow()
   })
 })
